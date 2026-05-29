@@ -1,0 +1,440 @@
+/* ==========================================================================
+   1. DESIGN TOKENS & VARIABILI (Stile Moderno/Vercel)
+   ========================================================================== */
+:root {
+  --bg-dark: #030303;
+  --card-bg: rgba(18, 18, 18, 0.4);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --card-border-glow: rgba(255, 255, 255, 0.12);
+
+  --font-modern: "Inter", system-ui, -apple-system, sans-serif;
+  --text-primary: #f5f5f7;
+  --text-secondary: #8e8e93;
+
+  --accent-primary: #ffffff;
+  --accent-purple: #7928ca;
+  --accent-blue: #0072f5;
+  --accent-red: #ff0055;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   2. REGOLE GLOBALI DI BASE
+   ========================================================================== */
+body {
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(at 0% 0%, rgba(121, 40, 202, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(0, 114, 245, 0.12) 0px, transparent 50%);
+  background-attachment: fixed;
+  font-family: var(--font-modern);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Contenitore principale delle pagine */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   3. STRUTTURA DEI FORM (Crea Utente, Aggiorna, Nuovo Post)
+   ========================================================================== */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  /* Larghezza perfetta ed elegante per i form */
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.4s var(--ease-premium), transform 0.4s var(--ease-premium);
+  box-sizing: border-box;
+  margin: 20px auto;
+}
+
+.form:hover {
+  border-color: var(--card-border-glow);
+}
+
+.form-title {
+  margin: 0 0 28px 0;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  background: linear-gradient(180deg, #ffffff 0%, #a1a1a1 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  align-self: flex-start;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+/* Input di testo all'interno dei form */
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  font-family: var(--font-modern);
+  font-size: 14px;
+  color: #ffffff;
+  box-sizing: border-box;
+  transition: all 0.3s var(--ease-premium);
+}
+
+.form-group input:focus {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+/* Bottone di invio primario del form */
+.btn-submit {
+  margin-top: 12px;
+  background: var(--accent-primary);
+  color: #000000;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-submit:hover {
+  background: #e5e5e7;
+  border-color: transparent;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+  transform: scale(1.01);
+}
+
+/* Stato vuoto quando non ci sono utenti */
+.form.empty-state {
+  padding: 40px;
+  text-align: center;
+  max-width: 500px;
+}
+
+/* ==========================================================================
+   4. STREAM LAYOUT (Lista Utenti & Post)
+   ========================================================================== */
+.list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 20px;
+  padding: 0 20px 60px 20px;
+  box-sizing: border-box;
+}
+
+.user-stream-block {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  padding: 32px;
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.4s var(--ease-premium), transform 0.4s var(--ease-premium);
+  box-sizing: border-box;
+}
+
+.user-stream-block:hover {
+  border-color: var(--card-border-glow);
+  transform: translateY(-2px);
+}
+
+.user-profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.user-posts-section {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.posts-section-title {
+  margin: 0 0 16px 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.posts-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Card interna del singolo post */
+.mini-post-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: background 0.3s var(--ease-premium);
+}
+
+.mini-post-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.post-image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.post-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s var(--ease-premium);
+}
+
+.expandable-image {
+  cursor: zoom-in;
+}
+
+.expandable-image:hover {
+  transform: scale(1.02);
+}
+
+.post-content-wrapper {
+  padding: 16px;
+}
+
+.post-content-wrapper h5 {
+  margin: 0 0 6px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.post-content-wrapper p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.no-posts-text {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Dettagli Anagrafica */
+.user-info {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.user-info h3 {
+  margin: 0 0 16px 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.user-detail {
+  margin: 6px 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+
+.user-detail strong {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+/* ==========================================================================
+   5. SISTEMA DEI BOTTONI (Globali e di Azione)
+   ========================================================================== */
+.button {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--font-modern);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.25s var(--ease-premium);
+  user-select: none;
+  -webkit-user-select: none;
+  width: 100%;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-add-post:hover {
+  background: rgba(121, 40, 202, 0.12);
+  border-color: var(--accent-purple);
+  color: #c084fc;
+  box-shadow: 0 0 20px rgba(121, 40, 202, 0.15);
+}
+
+.btn-update:hover {
+  background: rgba(0, 114, 245, 0.12);
+  border-color: var(--accent-blue);
+  color: #60a5fa;
+  box-shadow: 0 0 20px rgba(0, 114, 245, 0.15);
+}
+
+.btn-delete:hover {
+  background: rgba(255, 0, 85, 0.08);
+  border-color: var(--accent-red);
+  color: #f43f5e;
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.1);
+}
+
+/* ==========================================================================
+   6. SISTEMA LIGHTBOX (Ingrandimento Immagini)
+   ========================================================================== */
+.lightbox-overlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease-premium);
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-image {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 16px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--card-border);
+  transform: scale(0.95);
+  transition: transform 0.5s var(--ease-premium);
+}
+
+.lightbox-overlay.active .lightbox-image {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  color: var(--text-secondary);
+  font-size: 40px;
+  font-weight: 200;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.lightbox-close:hover {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   7. RESPONSIVENESS (Adattabilità per Mobile)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .user-stream-block {
+    flex-direction: column;
+    gap: 28px;
+    padding: 24px;
+  }
+
+  .user-profile-sidebar {
+    width: 100%;
+  }
+
+  .form {
+    padding: 24px;
+  }
+}

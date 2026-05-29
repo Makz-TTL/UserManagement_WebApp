@@ -1,0 +1,33 @@
+{
+  "name": "base-htmx",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.tsx",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "typecheck": "tsc--noEmit"
+  },
+  "dependencies": {
+    "@fastify/formbody": "^8.0.2",
+    "@fastify/multipart": "^10.0.0",
+    "@fastify/static": "^9.1.3",
+    "@kitajs/fastify-html-plugin": "^4.1.0",
+    "@kitajs/html": "^4.2.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "better-sqlite3": "^12.10.0",
+    "drizzle-orm": "^1.0.0-beta.22",
+    "fastify": "^5.3.0",
+    "fastify-type-provider-zod": "^6.1.0",
+    "tailwindcss": "^4.3.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.0.0",
+    "drizzle-kit": "^1.0.0-beta.22",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

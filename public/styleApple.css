@@ -1,0 +1,196 @@
+/* Definizione delle variabili per i colori in stile Apple */
+:root {
+  --apple-bg: #f5f5f7;
+  --apple-card: #ffffff;
+  --apple-text-main: #1d1d1f;
+  --apple-text-muted: #86868b;
+  --apple-blue: #0071e3;
+  --apple-blue-hover: #0077ed;
+  --apple-red: #ff3b30;
+  --apple-red-hover: #ff453a;
+  --apple-border: #d2d2d7;
+  --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--apple-bg);
+  background-image: none; /* Rimosso il pattern a pallini */
+  font-family: var(--font-stack);
+  color: var(--apple-text-main);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased; /* Rende i font più definiti su schermi Mac/iOS */
+} 
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* Stile per Form e Card per farli sembrare "widget" o finestre di sistema */
+.form, .user-card {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
+  background-color: var(--apple-card); 
+  border: none; /* Nessun bordo nero */
+  padding: 30px; 
+  width: 320px;
+  border-radius: 18px; /* Angoli molto arrotondati */
+  /* Ombra morbida e stratificata in stile macOS */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02);
+  margin: 20px;
+  box-sizing: border-box;
+}   
+
+.user-card {
+  align-items: flex-start; 
+}
+
+/* Stile per i Bottoni */
+.button {
+  appearance: none;
+  background-color: var(--apple-blue); /* Blu Apple */
+  border: none;
+  border-radius: 12px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--font-stack);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 44px; /* Dimensione minima touch friendly di iOS */
+  outline: none;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: var(--apple-blue-hover);
+  transform: scale(0.98); /* Leggero effetto pressione invece di sollevamento */
+}
+
+.button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+
+.list-container {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center;
+  gap: 20px; /* Aumentato lo spazio tra le card */
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.user-info {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.user-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--apple-text-main);
+  border-bottom: 1px solid var(--apple-border);
+  padding-bottom: 12px;
+}
+
+.user-detail {
+  margin: 6px 0;
+  font-size: 14px;
+  color: var(--apple-text-muted); /* Testo secondario più chiaro */
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Varianti specifiche dei bottoni */
+.btn-update {
+  background-color: var(--apple-bg); /* Sfondo grigio per bottoni secondari */
+  color: var(--apple-blue);
+}
+
+.btn-update:hover {
+  background-color: #e8e8ed;
+}
+
+.btn-delete {
+  background-color: rgba(255, 59, 48, 0.1); /* Rosso trasparente */
+  color: var(--apple-red);
+}
+
+.btn-delete:hover {
+  background-color: var(--apple-red);
+  color: #ffffff;
+}
+
+.form-title {
+  margin: 0 0 24px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--apple-text-main);
+  align-self: flex-start; 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 16px; 
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--apple-text-muted);
+  margin-bottom: 6px;
+  text-align: left;
+}
+
+/* Input text */
+.form-group input {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--apple-bg); /* Sfondo grigio chiaro */
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-family: var(--font-stack);
+  font-size: 15px;
+  color: var(--apple-text-main);
+  box-sizing: border-box; 
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  background-color: #ffffff;
+  border-color: var(--apple-blue); 
+  outline: none;
+  /* Effetto "ring" azzurro di macOS attorno all'input selezionato */
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2); 
+}
+
+.btn-submit {
+  margin-top: 16px;
+}
