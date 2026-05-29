@@ -25,13 +25,15 @@ import path from 'path';
 import fastifyStatic from '@fastify/static';
 import { fileURLToPath } from 'url';
 import { pipeline } from 'stream/promises';
-
+import * as argon2 from "argon2";
 import fastifyMultipart from '@fastify/multipart';
 
 const app = Fastify().withTypeProvider<ZodTypeProvider>().setValidatorCompiler(validatorCompiler)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
 
 app.register(fastifyHtml);
 app.register(fastifyMultipart, {
@@ -95,7 +97,7 @@ const createUserSchema = {
     userName: z.string().min(1),
     email: z.string().email(),
     phone: z.string().optional(),
-    password: z.string(),
+    password: z.string()
   })
 }
 
@@ -111,6 +113,8 @@ const updateUserSchema = {
     phone: z.string().optional()
   })
 }
+
+
 
 const getUserParamSchema = {
   params: z.object({
@@ -139,11 +143,20 @@ app.post("/login", {
 }, async (req, res) => {
   const body = req.body
 
+  const userName = body.userName.trim()
+  if (userName === '') {
+    return res.code(400).html(<PasError />)
+  }
+
+  
+
   try {
-    const rows = await db.select().from(usersTable).where(eq(usersTable.userName, body.userName)).limit(1)
+    const rows = await db.select().from(usersTable).where(eq(usersTable.userName, userName)).limit(1)
     const dbUser = rows[0]
 
-    if (!dbUser || dbUser.password !== body.password) {
+    
+
+    if (!dbUser || !(await argon2.verify(dbUser.password, body.password))) {
       return res.code(400).html(<PasError />)
     }
 
@@ -168,13 +181,15 @@ app.post("/createUser", {
   const cookieHeader = generateCookie(COOKIE_NAME, CookieValue, 60 * 60 * 24 * 7)
   res.header('Set-Cookie', cookieHeader)
 
+  
+
   try {
     const insertedRows = await db.insert(usersTable).values({
       name: body.name,
       lastName: body.lastName,
-      userName: body.userName,
+      userName: body.userName.trim(),
       email: body.email,
-      password: body.password,
+      password: await argon2.hash(body.password), 
       phone: body.phone ? parseInt(body.phone) : undefined,
       cookie: CookieValue
     }).returning({ insertedId: usersTable.id });

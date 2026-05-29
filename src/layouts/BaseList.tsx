@@ -7,7 +7,7 @@ type UserWithPost = User & {
 
 type BaseListProps = {
   utenti: UserWithPost[];
-  currentUserId?: number | null; // <-- Aggiunto per identificare l'utente loggato
+  currentUserId?: number | null; 
 };
 
 const BaseList = (props: BaseListProps) => {
@@ -20,19 +20,17 @@ const BaseList = (props: BaseListProps) => {
       ) : (
         props.utenti.map((utente) => (
           <div class="user-stream-block">
+
             
-            {/* Left Side: Profile Sidebar Controls */}
             <div class="user-profile-sidebar">
               <div class="user-info">
-                <h3>{utente.name} {utente.lastName}</h3>
-                <p class="user-detail"><strong>Username:</strong> {utente.userName || 'N/D'}</p>
-                <p class="user-detail"><strong>Email:</strong> {utente.email}</p>
-                <p class="user-detail"><strong>Tel:</strong> {utente.phone || 'N/D'}</p>
+                <h3>{utente.userName}</h3>
+                <p class="user-detail"><strong>Nome:</strong> {utente.name} {utente.lastName}</p>
               </div>
 
-              {/* RENDERIZZA LE AZIONI SOLO SE L'UTENTE COINCIDE CON QUELLO LOGGATO */}
+
               {props.currentUserId === utente.id && (
-                <div class="card-actions">
+                <><p class="user-detail"><strong>Email:</strong> {utente.email}</p><p class="user-detail"><strong>Telefono:</strong> {utente.phone || 'N/D'}</p><div class="card-actions">
                   <a href={`/newPost?authorId=${utente.id}`} class="button btn-add-post">
                     Scrivi un Post
                   </a>
@@ -45,14 +43,14 @@ const BaseList = (props: BaseListProps) => {
                     </button>
                   </form>
                   <a href={`/logout`} class="button btn-logout">
-                   Logout
+                    Logout
                   </a>
 
-                </div>
+                </div></>
               )}
             </div>
 
-            {/* Right Side: Content Timeline Feed */}
+      
             <div class="user-posts-section">
               <h4 class="posts-section-title">Post Creati ({utente.posts.length})</h4>
 
