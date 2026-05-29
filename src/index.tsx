@@ -15,6 +15,11 @@ import BaseList from "./layouts/BaseList"
 import ErrorPage from "./layouts/ErrorPage"
 import BasePostForm from "./layouts/BasePostForm"
 import LoginForm from "./layouts/loginForm"
+import RegError from "./layouts/RegError"
+import PasError from "./layouts/PasError"
+import NoAuthError from "./layouts/NoAuthError"
+import ServerError from "./layouts/ServerError"
+import UserNotFoundError from "./layouts/UserNotFound"
 
 import path from 'path';
 import fastifyStatic from '@fastify/static';
@@ -139,7 +144,7 @@ app.post("/login", {
     const dbUser = rows[0]
 
     if (!dbUser || dbUser.password !== body.password) {
-      return res.code(400).html(<ErrorPage />)
+      return res.code(400).html(<PasError />)
     }
 
     const CookieValue = Math.random().toString(36).substring(2)
@@ -151,7 +156,7 @@ app.post("/login", {
     return res.redirect(`/listUsers`)
   } catch (err) {
     console.error(err)
-    return res.code(500).send({ errore: 'Err server' })
+    return res.code(500).html(<ServerError />)
   }
 })
 
@@ -177,11 +182,11 @@ app.post("/createUser", {
     return res.redirect(`/listUsers`)
   } catch (err: any) {
     if (err.code === 'SQLITE_CONSTRAINT_UNIQUE' || err.message.includes('unique')) {
-      return res.code(400).html(<ErrorPage />)
+      return res.code(400).html(<RegError />)
     }
 
     console.error(err)
-    return res.code(500).send({ errore: 'Err server' })
+    return res.code(500).html(<ServerError />)
   }
 })
 
@@ -196,7 +201,7 @@ app.get("/newPost", async (req, res) => {
   const currentUserId = await userLoggato(req.headers.cookie);
 
   if (currentUserId !== targetAuthorId) {
-    return res.code(403).html(<ErrorPage />); 
+    return res.code(403).html(<NoAuthError />); 
   }
 
   const utentiDb = await db.select().from(usersTable);
@@ -224,7 +229,8 @@ app.post("/createPost", async (req, res) => {
   const currentUserId = await userLoggato (req.headers.cookie);
 
   if (currentUserId !== authorId) {
-    return res.code(403).send({ errore: "Non autorizzato" });
+    
+    return res.code(403).html(<NoAuthError />);
   }
 
   const title = (data.fields.title as any).value
@@ -280,14 +286,14 @@ app.post('/eliminaUtente/:id', {
   const currentUserId = await userLoggato   (req.headers.cookie);
 
   if (currentUserId !== req.params.id) {
-    return reply.code(403).send({ errore: "Non autorizzato" });
+    return reply.code(403).html(<NoAuthError />);
   }
 
   await db.delete(postsTable).where(eq(postsTable.authorId, req.params.id))
   await db.delete(usersTable).where(eq(usersTable.id, req.params.id))
   
   reply.header('Set-Cookie', `${COOKIE_NAME}=; Max-Age=0; Path=/; HttpOnly; SameSite=Strict`);
-  return reply.redirect("/listUsers")
+  return reply.redirect("/loginForm")
 })
 
 app.get('/updateUser/:id', {
@@ -296,7 +302,7 @@ app.get('/updateUser/:id', {
   const currentUserId = await userLoggato   (req.headers.cookie);
 
   if (currentUserId !== req.params.id) {
-    return reply.code(403).html(<ErrorPage />);
+    return reply.code(403).html(<NoAuthError />);
   }
 
   try {
@@ -305,7 +311,7 @@ app.get('/updateUser/:id', {
     const dbUser = rows[0]
 
     if (!dbUser) {
-      return reply.code(404).send({ errore: 'Utente non trovato' })
+      return reply.code(404).html(<UserNotFoundError />)
     }
 
     const utente = {
@@ -326,7 +332,7 @@ app.get('/updateUser/:id', {
 
   } catch (err) {
     console.error(err)
-    return reply.code(500).send({ errore: 'err server' })
+    return reply.code(500).html(<ServerError />)
   }
 })
 
@@ -337,7 +343,7 @@ app.post('/updateUtente/:id', {
   const targetId = parseInt(req.params.id);
 
   if (currentUserId !== targetId) {
-    return reply.code(403).send({ errore: "Non autorizzato" });
+    return reply.code(403).html(<NoAuthError />);
   }
 
   const body = req.body
