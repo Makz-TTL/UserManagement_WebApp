@@ -122,6 +122,12 @@ const getUserParamSchema = {
   })
 }
 
+const getPostParamSchema = {
+  params: z.object({
+    id: z.coerce.number()
+  })
+}
+
 app.get("/home", async (req, res) => {
   return res.html(
     <MainLayout>
@@ -295,10 +301,32 @@ app.get("/listUsers", async (req, res) => {
   )
 })
 
+app.post('/eliminaPost/:id', {
+  schema: getPostParamSchema
+},async (req, reply) => {
+  
+  const currentUserId = await userLoggato (req.headers.cookie);
+  const postId = req.params.id
+
+  const post = await db.select().from(postsTable).where(eq(postsTable.id, postId)).limit(1).then(res => res[0])
+  
+  if (!post) {
+    return reply.code(404).html(<ErrorPage />);
+  }
+
+  if (post.authorId !== currentUserId) {
+    return reply.code(403).html(<NoAuthError />);
+  }
+
+  await db.delete(postsTable).where(eq(postsTable.id, postId));
+
+  return reply.redirect("/listUsers");
+})
+
 app.post('/eliminaUtente/:id', {
   schema: getUserParamSchema
 }, async (req, reply) => {
-  const currentUserId = await userLoggato   (req.headers.cookie);
+  const currentUserId = await userLoggato(req.headers.cookie);
 
   if (currentUserId !== req.params.id) {
     return reply.code(403).html(<NoAuthError />);

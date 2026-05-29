@@ -71,6 +71,15 @@ const BaseList = (props: BaseListProps) => {
                       <div class="post-content-wrapper">
                         <h5>{post.title}</h5>
                         <p>{post.content}</p>
+
+                        {props.currentUserId === utente.id && (
+                       <form action={`/eliminaPost/${post.id}`} method="post" style="margin-top: 10px;">
+                          <button class="button btn-delete-post" type="submit">
+                            🗑️
+                          </button>
+                        </form>
+                        )}
+                  
                       </div>
                     </div>
                   ))
