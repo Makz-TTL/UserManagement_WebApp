@@ -360,6 +360,11 @@ app.post('/updateUtente/:id', {
 
   return reply.redirect("/listUsers")
 })
+app.get("/logout", async (req, reply) => {
+  const cookieHeader = generateCookie(COOKIE_NAME, '', 0);
+  reply.header('Set-Cookie', cookieHeader);
+  return reply.redirect("/loginForm");
+})
 
 app.listen({ port: 3001, host: "0.0.0.0" })
 console.log("App is listening on port 3001")

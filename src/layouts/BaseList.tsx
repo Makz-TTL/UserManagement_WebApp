@@ -44,6 +44,10 @@ const BaseList = (props: BaseListProps) => {
                       Elimina Utente
                     </button>
                   </form>
+                  <a href={`/logout`} class="button btn-logout">
+                   Logout
+                  </a>
+
                 </div>
               )}
             </div>
